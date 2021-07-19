@@ -20,15 +20,32 @@ namespace DealerLead.Web.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+
+/*        private string GetTheOid()
+        {
+            var oidClaim = claimsIdentity.Claims.FirstOrDefault();
+            return Guid.Parse(oidClaim.Value);
+        }*/
+
+
+        private string GetOid()
+        {
+            var user = this.User;
+            return this.User.Identities.ToString();
+        }
+
         public IActionResult Privacy()
         {
+            string oid = GetOid();
             return View();
         }
+
 
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
