@@ -8,15 +8,23 @@ using System.Threading.Tasks;
 
 namespace DealerLead
 {
-    public class SupportedMake
+    public class SupportedModel
     {
         [Key]
-        [Column("MakeID")]
-        public int ID { get; set; }
+        [Column("ModelId")]
+        public int Id { get; set; }
 
-        [Column("MakeName")]
-        [Display(Name = "Name of Make")]
+        [Column("ModelName")]
         public string Name { get; set; }
+
+
+
+  
+        public int MakeID { get; set; }
+
+        public SupportedMake Make { get; set;
+        }
+
 
 
         [ScaffoldColumn(false)]
@@ -24,10 +32,6 @@ namespace DealerLead
         public DateTime CreateDate { get; set; }
         [ScaffoldColumn(false)]
         public DateTime? ModifyDate { get; set; }
-
-
-
-        public List<SupportedModel> Models { get; set; }
 
 
     }

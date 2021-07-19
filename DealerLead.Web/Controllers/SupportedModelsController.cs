@@ -9,22 +9,23 @@ using DealerLead;
 
 namespace DealerLead.Web.Controllers
 {
-    public class SupportedMakesController : Controller
+    public class SupportedModelsController : Controller
     {
         private readonly DealerLeadDbContext _context;
 
-        public SupportedMakesController(DealerLeadDbContext context)
+        public SupportedModelsController(DealerLeadDbContext context)
         {
             _context = context;
         }
 
-        // GET: SupportedMakes
+        // GET: SupportedModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SupportedMake.ToListAsync());
+            var dealerLeadDbContext = _context.SupportedModel.Include(s => s.Make);
+            return View(await dealerLeadDbContext.ToListAsync());
         }
 
-        // GET: SupportedMakes/Details/5
+        // GET: SupportedModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,42 @@ namespace DealerLead.Web.Controllers
                 return NotFound();
             }
 
-            var supportedMake = await _context.SupportedMake
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (supportedMake == null)
+            var supportedModel = await _context.SupportedModel
+                .Include(s => s.Make)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (supportedModel == null)
             {
                 return NotFound();
             }
 
-            return View(supportedMake);
+            return View(supportedModel);
         }
 
-        // GET: SupportedMakes/Create
+        // GET: SupportedModels/Create
         public IActionResult Create()
         {
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID");
             return View();
         }
 
-        // POST: SupportedMakes/Create
+        // POST: SupportedModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name")] SupportedMake supportedMake)
+        public async Task<IActionResult> Create([Bind("Id,Name,MakeID")] SupportedModel supportedModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(supportedMake);
+                _context.Add(supportedModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(supportedMake);
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID", supportedModel.MakeID);
+            return View(supportedModel);
         }
 
-        // GET: SupportedMakes/Edit/5
+        // GET: SupportedModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +76,23 @@ namespace DealerLead.Web.Controllers
                 return NotFound();
             }
 
-            var supportedMake = await _context.SupportedMake.FindAsync(id);
-            if (supportedMake == null)
+            var supportedModel = await _context.SupportedModel.FindAsync(id);
+            if (supportedModel == null)
             {
                 return NotFound();
             }
-            return View(supportedMake);
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID", supportedModel.MakeID);
+            return View(supportedModel);
         }
 
-        // POST: SupportedMakes/Edit/5
+        // POST: SupportedModels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] SupportedMake supportedMake)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,MakeID")] SupportedModel supportedModel)
         {
-            if (id != supportedMake.ID)
+            if (id != supportedModel.Id)
             {
                 return NotFound();
             }
@@ -96,13 +101,12 @@ namespace DealerLead.Web.Controllers
             {
                 try
                 {
-                    supportedMake.ModifyDate = DateTime.Now;
-                    _context.Update(supportedMake);
+                    _context.Update(supportedModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SupportedMakeExists(supportedMake.ID))
+                    if (!SupportedModelExists(supportedModel.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +117,11 @@ namespace DealerLead.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(supportedMake);
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID", supportedModel.MakeID);
+            return View(supportedModel);
         }
 
-        // GET: SupportedMakes/Delete/5
+        // GET: SupportedModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +129,31 @@ namespace DealerLead.Web.Controllers
                 return NotFound();
             }
 
-            var supportedMake = await _context.SupportedMake
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (supportedMake == null)
+            var supportedModel = await _context.SupportedModel
+                .Include(s => s.Make)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (supportedModel == null)
             {
                 return NotFound();
             }
 
-            return View(supportedMake);
+            return View(supportedModel);
         }
 
-        // POST: SupportedMakes/Delete/5
+        // POST: SupportedModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var supportedMake = await _context.SupportedMake.FindAsync(id);
-            _context.SupportedMake.Remove(supportedMake);
+            var supportedModel = await _context.SupportedModel.FindAsync(id);
+            _context.SupportedModel.Remove(supportedModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SupportedMakeExists(int id)
+        private bool SupportedModelExists(int id)
         {
-            return _context.SupportedMake.Any(e => e.ID == id);
+            return _context.SupportedModel.Any(e => e.Id == id);
         }
     }
 }
