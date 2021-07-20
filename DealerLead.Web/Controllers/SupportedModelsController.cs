@@ -47,7 +47,7 @@ namespace DealerLead.Web.Controllers
         // GET: SupportedModels/Create
         public IActionResult Create()
         {
-            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID");
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID", supportedModel.MakeID);
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName", supportedModel.MakeID);
             return View(supportedModel);
         }
 
@@ -81,7 +81,7 @@ namespace DealerLead.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID", supportedModel.MakeID);
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName", supportedModel.MakeID);
             return View(supportedModel);
         }
 
@@ -117,7 +117,7 @@ namespace DealerLead.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "ID", supportedModel.MakeID);
+            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName", supportedModel.MakeID);
             return View(supportedModel);
         }
 
