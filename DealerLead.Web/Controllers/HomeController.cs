@@ -28,21 +28,24 @@ namespace DealerLead.Web.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            if(User.Identity.IsAuthenticated) 
+            {
+                ClaimsPrincipal principal = User as ClaimsPrincipal;
+                Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
+                var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+
+            if (dealerUser != null)
+            {
+                ViewBag.IsRegistered = true;
+            }
+            else
+            {
+                ViewBag.IsRegistered = false;
+            }
+
+            }
             return View();
         }
-
-
-        /*        private string GetTheOid()
-                {
-                    var oidClaim = claimsIdentity.Claims.FirstOrDefault();
-                    return Guid.Parse(oidClaim.Value);
-                }*/
-
-/*        private string GetOid()
-        {
-            var user = this.User;
-            return this.User.Identities.ToString();
-        }*/
 
         public IActionResult Register()
         {
@@ -57,11 +60,13 @@ namespace DealerLead.Web.Controllers
                    {*/
             ClaimsPrincipal principal = User as ClaimsPrincipal;
             Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
+            var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
 
-                dealerLeadUser.Oid = Oid.ToString();
+                dealerLeadUser.Oid = Oid;
                 _context.Add(dealerLeadUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
     /*        return View();
         }
@@ -101,6 +106,17 @@ namespace DealerLead.Web.Controllers
             return View();
         }
 
+        /*        private string GetTheOid()
+        {
+            var oidClaim = claimsIdentity.Claims.FirstOrDefault();
+            return Guid.Parse(oidClaim.Value);
+        }*/
+
+        /*        private string GetOid()
+                {
+                    var user = this.User;
+                    return this.User.Identities.ToString();
+                }*/
 
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

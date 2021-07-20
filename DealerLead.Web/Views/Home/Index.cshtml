@@ -1,11 +1,35 @@
-﻿@{
+﻿@using System.Security.Principal
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome...</h1>
     <p>...to Dealer Leads! Your source for all things Dealer Lead related</p>
+</div>
 
 
 
+
+
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p><span class="navbar-text text-dark">Hello @User.Identity.Name!</span></p>
+
+        @if (ViewBag.IsRegistered)
+        {
+            <p>You are registered and good to go!</p>
+        }
+        else
+        {
+            <p>You are signed in, but still need to <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Register">register</a></p>
+        }
+    }
+
+
+    else
+    {
+        <p>You are not signed in, please <a class="text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">sign in here</a></p>
+    }
 </div>

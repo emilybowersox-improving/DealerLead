@@ -16,7 +16,7 @@ namespace DealerLead
 
         // constraint: unqiue
         [Column("AzureADId")]
-        public string Oid { get; set; }
+        public Guid Oid { get; set; }
 
 
         [ScaffoldColumn(false)]
