@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DealerLead
 {
-    class Dealership
+    public class Dealership
     {
         [Key]
         [Column("DealershipId")]
@@ -32,6 +32,7 @@ namespace DealerLead
         [Column("Zipcode")]
         public string Zip { get; set; }
 
+/*        [ScaffoldColumn(false)]*/
         [Column("CreatingUserId")]
         public int CreatorId { get; set; }
 

@@ -21,5 +21,7 @@ namespace DealerLead
 
 
         public DbSet<DealerLeadUser> DealerLeadUser { get; set; } 
+
+        public DbSet<Dealership> Dealership { get; set; }
     }
 }
