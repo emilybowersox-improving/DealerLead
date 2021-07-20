@@ -56,9 +56,9 @@ namespace DealerLead.Web.Controllers
             /*       if (ModelState.IsValid)
                    {*/
             ClaimsPrincipal principal = User as ClaimsPrincipal;
-            Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);    
+            Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
 
-
+                dealerLeadUser.Oid = Oid.ToString();
                 _context.Add(dealerLeadUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
