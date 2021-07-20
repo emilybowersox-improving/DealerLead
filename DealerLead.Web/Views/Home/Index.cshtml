@@ -20,16 +20,29 @@
         @if (ViewBag.IsRegistered)
         {
             <p>You are registered and good to go!</p>
+
+            <ul>
+                <li>
+                    <a asp-area="" asp-controller="SupportedStates" asp-action="Index">Manage states</a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="SupportedMakes" asp-action="Index">Manage makes</a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="SupportedModels" asp-action="Index">Manage models</a>
+                </li>
+            </ul>
+
         }
         else
         {
-            <p>You are signed in, but still need to <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Register">register</a></p>
+            <p>You are signed in, but still need to <a asp-area="" asp-controller="Home" asp-action="Register">register</a></p>
         }
     }
 
 
     else
     {
-        <p>You are not signed in, please <a class="text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">sign in here</a></p>
+        <p>You are not signed in, please <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">sign in here</a></p>
     }
 </div>
