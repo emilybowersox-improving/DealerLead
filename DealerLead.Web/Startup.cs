@@ -36,7 +36,7 @@ namespace DealerLead.Web
         {
             Configuration.Bind("AzureAD", options);
             options.Events ??= new OpenIdConnectEvents();
-            options.Events.OnTokenValidated += OnTokenValidatedFunc;
+            options.Events.OnTokenValidated += Authentication.OnTokenValidatedFunc;
         });
 
             services.AddControllersWithViews(options =>
@@ -52,11 +52,11 @@ namespace DealerLead.Web
             services.AddDbContext<DealerLeadDbContext>();
 
         }
-        private async Task OnTokenValidatedFunc(TokenValidatedContext context)
+ /*       private async Task OnTokenValidatedFunc(TokenValidatedContext context)
         {
             // Custom code here
             await Task.CompletedTask.ConfigureAwait(false);
-        }
+        }*/
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

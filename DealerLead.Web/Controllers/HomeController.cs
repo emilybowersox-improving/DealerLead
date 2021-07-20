@@ -46,38 +46,55 @@ namespace DealerLead.Web.Controllers
             return View();
         }
 
-/*        private async Task OnTokenValidatedFunc(TokenValidatedContext context)
-        {
-            // Custom code here
-            await Task.CompletedTask.ConfigureAwait(false);
-        }*/
+        /*        in it's own helper class- Authentication class, Identity Helper, then remove contents from Index above
+         *        public static async Task OnTokenValidatedFunc(TokenValidatedContext context)
+                {
+                    Guid? azureOIDToken = IdentityHelper.GetAzureOIDToken(context.principal);
+                      var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+                      
+                if (dealerUser == null)
+                {
+                    DealerLeadUser newUser = new DealerLeadUser { Oid = Oid };
+                    _context.Add(newUser);
+                    _context.SaveChange();
+                }
 
- /*       public IActionResult Register()
-        {
-            return View();
-        }
-*/
- 
+                    // Custom code goes above here
+                    await Task.CompletedTask.ConfigureAwait(false);
+                }*/
 
-/*        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("Id, Oid")] DealerLeadUser dealerLeadUser)
-        {
-            *//*       if (ModelState.IsValid)
-                   {*//*
-            ClaimsPrincipal principal = User as ClaimsPrincipal;
-            Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
-            var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+        /*        private async Task OnTokenValidatedFunc(TokenValidatedContext context)
+                {
+                    // Custom code here
+                    await Task.CompletedTask.ConfigureAwait(false);
+                }*/
 
-                dealerLeadUser.Oid = Oid;
-                _context.Add(dealerLeadUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+        /*       public IActionResult Register()
+               {
+                   return View();
+               }
+       */
 
-            }*/
-    /*        return View();
-        }
-*/
+
+        /*        [HttpPost]
+                [ValidateAntiForgeryToken]
+                public async Task<IActionResult> Register([Bind("Id, Oid")] DealerLeadUser dealerLeadUser)
+                {
+                    *//*       if (ModelState.IsValid)
+                           {*//*
+                    ClaimsPrincipal principal = User as ClaimsPrincipal;
+                    Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
+                    var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+
+                        dealerLeadUser.Oid = Oid;
+                        _context.Add(dealerLeadUser);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+
+                    }*/
+        /*        return View();
+            }
+    */
 
 
         public static class IdentityHelper
