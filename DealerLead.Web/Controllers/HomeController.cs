@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DealerLead.Web.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,7 +17,6 @@ namespace DealerLead.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         private readonly DealerLeadDbContext _context;
 
 
@@ -26,7 +27,7 @@ namespace DealerLead.Web.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if(User.Identity.IsAuthenticated) 
             {
@@ -34,30 +35,36 @@ namespace DealerLead.Web.Controllers
                 Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
                 var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
 
-            if (dealerUser != null)
-            {
+                if (dealerUser == null)
+                {
+                    DealerLeadUser newUser = new DealerLeadUser { Oid = Oid };
+                    _context.Add(newUser);
+                    await _context.SaveChangesAsync();
+                }
                 ViewBag.IsRegistered = true;
             }
-            else
-            {
-                ViewBag.IsRegistered = false;
-            }
-
-            }
             return View();
         }
 
-        public IActionResult Register()
+/*        private async Task OnTokenValidatedFunc(TokenValidatedContext context)
+        {
+            // Custom code here
+            await Task.CompletedTask.ConfigureAwait(false);
+        }*/
+
+ /*       public IActionResult Register()
         {
             return View();
         }
+*/
+ 
 
-        [HttpPost]
+/*        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("Id,Oid")] DealerLeadUser dealerLeadUser)
+        public async Task<IActionResult> Register([Bind("Id, Oid")] DealerLeadUser dealerLeadUser)
         {
-            /*       if (ModelState.IsValid)
-                   {*/
+            *//*       if (ModelState.IsValid)
+                   {*//*
             ClaimsPrincipal principal = User as ClaimsPrincipal;
             Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
             var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
@@ -67,7 +74,7 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
-            }
+            }*/
     /*        return View();
         }
 */

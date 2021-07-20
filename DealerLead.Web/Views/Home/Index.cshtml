@@ -6,11 +6,9 @@
 <div class="text-center">
     <h1 class="display-4">Welcome...</h1>
     <p>...to Dealer Leads! Your source for all things Dealer Lead related</p>
+
+
 </div>
-
-
-
-
 
 <div>
     @if (User.Identity.IsAuthenticated)
@@ -34,15 +32,11 @@
             </ul>
 
         }
-        else
-        {
-            <p>You are signed in, but still need to <a asp-area="" asp-controller="Home" asp-action="Register">register</a></p>
-        }
     }
-
-
     else
     {
         <p>You are not signed in, please <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">sign in here</a></p>
     }
+
+
 </div>
