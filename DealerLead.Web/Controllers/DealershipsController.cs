@@ -50,12 +50,17 @@ namespace DealerLead.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name", dealership.State);
-            /*    ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName", supportedModel.MakeID);
-            return View(supportedModel);*/
             return View(dealership);
         }
 
 
+        public async Task<IActionResult> Details(int Id)
+        {
+            var dealershipDetail = await _context.Dealership
+                .FirstOrDefaultAsync(d => d.Id == Id);
+
+            return View(dealershipDetail);
+        }
 
 
 

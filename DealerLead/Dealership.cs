@@ -18,9 +18,11 @@ namespace DealerLead
         public string Name {get; set;}
 
         [Column("StreetAddress1")]
+        [Display(Name = "Address 1")]
         public string Address1 {get; set;}
 
         [Column("StreetAddress2")]
+        [Display(Name = "Address 2")]
         public string Address2 { get; set; }
 
         [Column("City")]
@@ -30,6 +32,7 @@ namespace DealerLead
         public string State { get; set; }*/
 
         [Column("State")]
+        [Display(Name = "State")]
         public string StateAbbreviation { get; set; }
         public SupportedState State { get; set; }
 
