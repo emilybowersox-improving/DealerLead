@@ -14,6 +14,7 @@ namespace DealerLead
         [Column("MakeID")]
         public int ID { get; set; }
 
+        [Required]
         [Column("MakeName")]
         [Display(Name = "Name of Make")]
         public string Name { get; set; }

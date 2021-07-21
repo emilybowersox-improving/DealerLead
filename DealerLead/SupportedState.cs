@@ -11,9 +11,11 @@ namespace DealerLead
     public class SupportedState
     {
         [Key]
+        [Required]
         [Column("StateAbbreviation")]
         public string Abbreviation { get; set; }
 
+        [Required]
         [Column("StateName")]
         public string Name { get; set; }
 

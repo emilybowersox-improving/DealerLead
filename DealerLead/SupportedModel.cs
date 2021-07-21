@@ -14,6 +14,7 @@ namespace DealerLead
         [Column("ModelId")]
         public int Id { get; set; }
 
+        [Required]
         [Column("ModelName")]
         public string Name { get; set; }
 
