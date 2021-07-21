@@ -34,7 +34,7 @@ namespace DealerLead.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address1,Address2,City,State,Zip,CreatorId")] Dealership dealership)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address1,Address2,City,StateAbbreviation,Zip,CreatorId")] Dealership dealership)
         {            
             if (ModelState.IsValid)
             {
@@ -49,10 +49,10 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Name");
+            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name", dealership.State);
             /*    ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName", supportedModel.MakeID);
             return View(supportedModel);*/
-            return RedirectToAction(nameof(Index));
+            return View(dealership);
         }
 
 

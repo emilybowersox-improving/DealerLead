@@ -26,8 +26,15 @@ namespace DealerLead
         [Column("City")]
         public string City { get; set; }
 
+     /*   [Column("State")]
+        public string State { get; set; }*/
+
         [Column("State")]
-        public string State { get; set; }
+        public string StateAbbreviation { get; set; }
+        public SupportedState State { get; set; }
+
+
+
 
         [Column("Zipcode")]
         public string Zip { get; set; }
