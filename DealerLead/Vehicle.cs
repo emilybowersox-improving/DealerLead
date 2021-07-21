@@ -20,7 +20,7 @@ namespace DealerLead
         [Display(Name = "Model")]
         public int ModelId { get; set; }
 
-        public SupportedModel supportedModel { get; set; }
+        public SupportedModel Model { get; set; }
 
 
         [Required]
@@ -39,18 +39,14 @@ namespace DealerLead
 
         [Required]
         [Display(Name = "Dealership")]
-      /*  [Column("DealershipId")]*/
+        [Column("DealershipId")]
         public int DealershipId { get; set; }
-        public Dealership dealership { get; set; }
+        public Dealership Dealership { get; set; }
 
 
-        [Required]
         [Display(Name = "Sell Date")]
         [Column("SellDate")]
-        public  DateTime SellDate { get; set; }
-
-
-
+        public DateTime? SellDate { get; set; }
 
 
         [ScaffoldColumn(false)]

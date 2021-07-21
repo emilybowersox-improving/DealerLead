@@ -21,7 +21,7 @@ namespace DealerLead.Web.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var dealerLeadDbContext = _context.Vehicle.Include(v => v.dealership);
+            var dealerLeadDbContext = _context.Vehicle.Include(v => v.Dealership).Include(v => v.Model);
             return View(await dealerLeadDbContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace DealerLead.Web.Controllers
             }
 
             var vehicle = await _context.Vehicle
-                .Include(v => v.dealership)
+                .Include(v => v.Dealership)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -47,7 +47,8 @@ namespace DealerLead.Web.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["DealershipId"] = new SelectList(_context.Dealership, "Id", "Address1");
+            ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name");
+            ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name");
             return View();
         }
 
@@ -64,7 +65,8 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DealershipId"] = new SelectList(_context.Dealership, "Id", "Address1", vehicle.DealershipId);
+            ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name", vehicle.DealershipId);
+            ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name", vehicle.ModelId);
             return View(vehicle);
         }
 
@@ -130,7 +132,7 @@ namespace DealerLead.Web.Controllers
             }
 
             var vehicle = await _context.Vehicle
-                .Include(v => v.dealership)
+                .Include(v => v.Dealership)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
