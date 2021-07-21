@@ -14,9 +14,11 @@ namespace DealerLead
         [Column("DealershipId")]
         public int Id { get; set; }
 
+        [Required]
         [Column("DealershipName")]
         public string Name {get; set;}
 
+        [Required]
         [Column("StreetAddress1")]
         [Display(Name = "Address 1")]
         public string Address1 {get; set;}
@@ -25,20 +27,20 @@ namespace DealerLead
         [Display(Name = "Address 2")]
         public string Address2 { get; set; }
 
+        [Required]
         [Column("City")]
         public string City { get; set; }
 
-     /*   [Column("State")]
-        public string State { get; set; }*/
+        /*   [Column("State")]
+           public string State { get; set; }*/
 
+        [Required]
         [Column("State")]
         [Display(Name = "State")]
         public string StateAbbreviation { get; set; }
         public SupportedState State { get; set; }
 
-
-
-
+        [Required]
         [Column("Zipcode")]
         public string Zip { get; set; }
 

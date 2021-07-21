@@ -72,7 +72,7 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name");
+    /*        ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name");*/
             return View(dealership);
         }
 
