@@ -5,6 +5,7 @@ using System.Security.Claims;
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DealerLead.Web.Controllers
@@ -27,6 +28,7 @@ namespace DealerLead.Web.Controllers
 
         public IActionResult Create()
         {
+            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name");
             return View();
         }
 
@@ -47,7 +49,7 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Name");
             /*    ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName", supportedModel.MakeID);
             return View(supportedModel);*/
             return RedirectToAction(nameof(Index));
