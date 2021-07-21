@@ -5,6 +5,7 @@ using System.Security.Claims;
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DealerLead.Web.Controllers
 {
@@ -18,9 +19,10 @@ namespace DealerLead.Web.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Dealership.ToListAsync());
+          
         }
 
         public IActionResult Create()
