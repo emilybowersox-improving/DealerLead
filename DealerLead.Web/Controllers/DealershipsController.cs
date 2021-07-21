@@ -62,6 +62,23 @@ namespace DealerLead.Web.Controllers
             return View(dealershipDetail);
         }
 
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var thisDealership = await _context.Dealership
+                .FirstOrDefaultAsync(m => m.Id == Id);
+            return View(thisDealership);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteForReal(int Id)
+        {
+            var dealershipToDelete = await _context.Dealership.FindAsync(Id);
+            _context.Dealership.Remove(dealershipToDelete);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
         public static class IdentityHelper
