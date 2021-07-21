@@ -53,6 +53,28 @@ namespace DealerLead.Web.Controllers
             return View(dealership);
         }
 
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var dealershipDetail = await _context.Dealership
+           .FirstOrDefaultAsync(d => d.Id == Id);
+            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name");
+            
+            return View(dealershipDetail);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int Id, [Bind("Id,Name,Address1,Address2,City,StateAbbreviation,Zip,CreatorId")] Dealership dealership)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Update(dealership);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["StateSelectList"] = new SelectList(_context.SupportedState, "Abbreviation", "Name");
+            return View(dealership);
+        }
 
         public async Task<IActionResult> Details(int Id)
         {

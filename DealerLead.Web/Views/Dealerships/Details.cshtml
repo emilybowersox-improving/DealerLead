@@ -10,51 +10,54 @@
     <h4>Dealership</h4>
     <hr />
     @* dl = description list, dt = description term, dd =  description description*@
-<dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(m => m.Name)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(m => m.Name)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(m => m.Address1)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(m => m.Address1)
-    </dd>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(m => m.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(m => m.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(m => m.Address1)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(m => m.Address1)
+        </dd>
 
-    @if (Model.Address2 != null)
-    {
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(m => m.Address2)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(m => m.Address2)
-    </dd>
-    }
+        @if (Model.Address2 != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(m => m.Address2)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(m => m.Address2)
+            </dd>
+        }
 
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(m => m.City)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(m => m.City)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(m => m.StateAbbreviation)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(m => m.StateAbbreviation)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(m => m.Zip)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(m => m.Zip)
-    </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(m => m.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(m => m.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(m => m.StateAbbreviation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(m => m.StateAbbreviation)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(m => m.Zip)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(m => m.Zip)
+        </dd>
+    </dl>
 
-
-</dl>
+    <hr />
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
 
 </div>
