@@ -47,7 +47,7 @@ namespace DealerLead.Web.Controllers
         // GET: SupportedModels/Create
         public IActionResult Create()
         {
-            ViewData["MakeID"] = new SelectList(_context.SupportedMake, "ID", "MakeName");
+            ViewData["MakeOptionSet"] = new SelectList(_context.SupportedMake, "ID", "Name");
             return View();
         }
 
