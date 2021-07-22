@@ -45,6 +45,7 @@ namespace DealerLead
         public string Zip { get; set; }
 
 /*        [ScaffoldColumn(false)]*/
+        
         [Column("CreatingUserId")]
         public int CreatorId { get; set; }
 

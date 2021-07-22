@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DealerLead;
+using System.Security.Claims;
+using static DealerLead.Web.Controllers.HomeController;
 
 namespace DealerLead.Web.Controllers
 {
@@ -18,10 +20,20 @@ namespace DealerLead.Web.Controllers
             _context = context;
         }
 
+       
+
+
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var dealerLeadDbContext = _context.Vehicle.Include(v => v.Dealership).Include(v => v.Model);
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
+            var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+            var currentUserId = dealerUser.Id;
+
+            // where 
+            var dealerLeadDbContext = _context.Vehicle.Include(v => v.Dealership).Include(v => v.Model).Where(v => v.Dealership.CreatorId == currentUserId);
+
             return View(await dealerLeadDbContext.ToListAsync());
         }
 
@@ -159,5 +171,39 @@ namespace DealerLead.Web.Controllers
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
+
+
+
+
+
+        public static class IdentityHelper
+        {
+            public static Guid? GetAzureOIDToken(ClaimsPrincipal claimsPrincipal)
+            {
+                if (claimsPrincipal == null)
+                {
+                    return null;
+                }
+                if (claimsPrincipal.Identity.IsAuthenticated == false)
+                {
+                    return null;
+                }
+                var claimsIdentity = claimsPrincipal.Identity as ClaimsIdentity;
+                if (claimsIdentity == null)
+                {
+                    return null;
+                }
+                var oidClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier");
+                if (oidClaim == null)
+                {
+                    return null;
+                }
+                return Guid.Parse(oidClaim.Value);
+            }
+        }
+
+
+
     }
+
 }
