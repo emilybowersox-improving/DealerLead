@@ -77,13 +77,14 @@ namespace DealerLead.Web.Controllers
             {
                 return NotFound();
             }
-
             var vehicle = await _context.Vehicle.FindAsync(id);
+            ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name");
+            ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name");
+
             if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["DealershipId"] = new SelectList(_context.Dealership, "Id", "Address1", vehicle.DealershipId);
             return View(vehicle);
         }
 
@@ -119,7 +120,8 @@ namespace DealerLead.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DealershipId"] = new SelectList(_context.Dealership, "Id", "Address1", vehicle.DealershipId);
+            ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name", vehicle.DealershipId);
+            ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name", vehicle.ModelId);
             return View(vehicle);
         }
 
@@ -132,7 +134,7 @@ namespace DealerLead.Web.Controllers
             }
 
             var vehicle = await _context.Vehicle
-                .Include(v => v.Dealership)
+                .Include(v => v.Dealership).Include(v => v.Model)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
