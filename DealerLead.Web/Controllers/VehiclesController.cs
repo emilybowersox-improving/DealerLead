@@ -34,7 +34,7 @@ namespace DealerLead.Web.Controllers
             }
 
             var vehicle = await _context.Vehicle
-                .Include(v => v.Dealership)
+                .Include(v => v.Dealership).Include(v => v.Model)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
