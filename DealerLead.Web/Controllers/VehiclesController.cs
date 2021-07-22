@@ -32,6 +32,7 @@ namespace DealerLead.Web.Controllers
             var currentUserId = dealerUser.Id;
 
             // where 
+
             var dealerLeadDbContext = _context.Vehicle.Include(v => v.Dealership).Include(v => v.Model).Where(v => v.Dealership.CreatorId == currentUserId);
 
             return View(await dealerLeadDbContext.ToListAsync());
@@ -59,7 +60,14 @@ namespace DealerLead.Web.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name");
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
+            var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+            var currentUserId = dealerUser.Id;
+
+            var usersDealerships = _context.Dealership.Where(d => d.CreatorId == currentUserId);
+
+            ViewData["DealershipSelectList"] = new SelectList(usersDealerships, "Id", "Name");
             ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name");
             return View();
         }
@@ -77,6 +85,7 @@ namespace DealerLead.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name", vehicle.DealershipId);
             ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name", vehicle.ModelId);
             return View(vehicle);
@@ -89,8 +98,16 @@ namespace DealerLead.Web.Controllers
             {
                 return NotFound();
             }
+
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            Guid Oid = (Guid)IdentityHelper.GetAzureOIDToken(principal);
+            var dealerUser = _context.DealerLeadUser.FirstOrDefault(u => u.Oid == Oid);
+            var currentUserId = dealerUser.Id;
+
+            var usersDealerships = _context.Dealership.Where(d => d.CreatorId == currentUserId);
+
             var vehicle = await _context.Vehicle.FindAsync(id);
-            ViewData["DealershipSelectList"] = new SelectList(_context.Dealership, "Id", "Name");
+            ViewData["DealershipSelectList"] = new SelectList(usersDealerships, "Id", "Name");
             ViewData["ModelSelectList"] = new SelectList(_context.SupportedModel, "Id", "Name");
 
             if (vehicle == null)
